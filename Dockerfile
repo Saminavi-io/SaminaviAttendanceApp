@@ -22,6 +22,9 @@ COPY src ./src
 # Build the application
 RUN mvn package -DskipTests
 
+# Create a symbolic link to standardize the path
+RUN mkdir -p /app/target && ln -sf /attendaceApp/target/*.war /app/target/app.jar
+
 # =============================================================================
 # STAGE 2: Create a minimal runtime image
 # =============================================================================
@@ -36,10 +39,10 @@ LABEL version="1.0"
 RUN addgroup -S spring && adduser -S spring -G spring
 
 # Set working directory
-WORKDIR /attendancePortal
+WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /attendaceApp/target/*.war app.war
 
 # Change ownership to the non-root user
 RUN chown -R spring:spring /app
