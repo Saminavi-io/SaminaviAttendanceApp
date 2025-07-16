@@ -1,15 +1,17 @@
 pipeline {
     agent any
 
-        options {
-        timestamps()               // Adds timestamps to console output
-        ansiColor('xterm')         // Enables colored output
-        logRotator(
+    options {
+        // For log rotation, use buildDiscarder instead of logRotator directly
+        buildDiscarder(logRotator(
             daysToKeepStr: '10',
             numToKeepStr: '5',
             artifactDaysToKeepStr: '5',
             artifactNumToKeepStr: '2'
-        )                          // Cleans up logs and artifacts
+        ))
+        // Use timestamps option directly - this is a valid option
+        timestamps()
+        // Remove ansiColor from options block
     }
 
     // Environment variables
@@ -35,21 +37,26 @@ pipeline {
         }
         stage('Checkout Code') {
             steps {
+                // For colored output, wrap the steps in ansiColor
+                wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 echo 'Checking out the latest code from GitHub...'
                 git branch: 'next',
                     url: 'git@github.com:PramilaSaminavi/https://github.com/Saminavi-io/SaminaviAttendanceApp.git',
                     credentialsId: "${github-credentials}"
+                }    
             }
         }
 
         stage('Build') {
             steps {
+                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 echo 'Building the application...'
                 sh '''
                 	mvn clean package
                 	mvn package -DskipTests
                 	mvn package -X
                 ''' 
+                }
             }
         }
 
