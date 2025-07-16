@@ -1,6 +1,17 @@
 pipeline {
     agent any
 
+        options {
+        timestamps()               // Adds timestamps to console output
+        ansiColor('xterm')         // Enables colored output
+        logRotator(
+            daysToKeepStr: '10',
+            numToKeepStr: '5',
+            artifactDaysToKeepStr: '5',
+            artifactNumToKeepStr: '2'
+        )                          // Cleans up logs and artifacts
+    }
+
     // Environment variables
     environment {
         DOCKER_REGISTRY = 'pramilay/attendanceportal'
