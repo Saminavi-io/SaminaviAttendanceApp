@@ -86,8 +86,10 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running application tests...'
-                sh './test.sh' // Replace with your test suite command
-            }
+                withMaven(maven: 'maven3') {
+                     sh 'mvn test -DskipTests=false'  // Explicitly run tests if needed
+                }
+            }    
         }
 
         stage('Containerize') {
