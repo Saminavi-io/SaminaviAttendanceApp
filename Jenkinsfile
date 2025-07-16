@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent any 
+
+    tools {
+        maven 'maven3'  // Must match the name you configured in step 4.1
+    }
 
     options {
         // For log rotation, use buildDiscarder instead of logRotator directly
@@ -72,11 +76,14 @@ pipeline {
             steps {
                  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 echo 'Building the application...'
-                sh '''
-                	mvn clean package
-                	mvn package -DskipTests
-                	mvn package -X
-                ''' 
+                    withMaven(maven: 'maven3') {  // Must match your Maven tool name
+                        sh '''
+                            mvn clean package
+                            mvn package -DskipTests
+                            mvn package -X
+                        ''' 
+                    }
+
                 }
             }
         }
