@@ -26,7 +26,7 @@ pipeline {
         // Automatically trigger the pipeline on code push
         pollSCM('')
         // Use GitHub webhooks for real-time triggering if configured
-         githubPush()
+        // githubPush()
     }
 
     stages {
@@ -110,9 +110,9 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed.'
-            mail to: 'pramilay@saminavi.io',
-                subject: "Jenkins Pipeline Failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                body: "Something went wrong in build ${env.BUILD_URL}. Check the logs for details."
+            // mail to: 'pramilay@saminavi.io',
+            //     subject: "Jenkins Pipeline Failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+            //     body: "Something went wrong in build ${env.BUILD_URL}. Check the logs for details."
         }
     }
 }
