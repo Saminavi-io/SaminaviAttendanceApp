@@ -18,13 +18,15 @@ pipeline {
     environment {
         DOCKER_REGISTRY = 'pramilay/attendanceportal'
         DOCKER_IMAGE = 'pramilay/attendanceportal:latest'
-        GIT_CREDENTIALS_ID = 'github-credentials' 
         DOCKER_CREDENTIALS_ID = 'docker-credentials' 
+        GIT_REPO = 'https://github.com/Saminavi-io/SaminaviAttendanceApp.git'
+        GIT_BRANCH = 'next'
+         GIT_CREDENTIALS_ID = 'github-credentials' 
     }
 
     triggers {
         // Automatically trigger the pipeline on code push
-        pollSCM('')
+        pollSCM('H/15 * * * *')
         // Use GitHub webhooks for real-time triggering if configured
         // githubPush()
     }
@@ -40,9 +42,28 @@ pipeline {
                 // For colored output, wrap the steps in ansiColor
                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 echo 'Checking out the latest code from GitHub...'
-                git branch: 'next',
-                    url: 'git@github.com:PramilaSaminavi/https://github.com/Saminavi-io/SaminaviAttendanceApp.git',
-                    credentialsId: "${github-credentials}"
+                    // Use withCredentials to securely access GitHub
+                    withCredentials([usernamePassword(credentialsId: "${GIT_CREDENTIALS_ID}", 
+                                                    usernameVariable: 'GIT_USER', 
+                                                    passwordVariable: 'GIT_PASS')]) {
+                        // Either use this explicit checkout
+                        // checkout([$class: 'GitSCM', 
+                        //         branches: [[name: "*/${GIT_BRANCH}"]], 
+                        //         userRemoteConfigs: [[url: "${GIT_REPO}", 
+                        //                             credentialsId: "${GIT_CREDENTIALS_ID}"]]])
+                        
+                        // Or if you prefer to use the implicit SCM checkout
+                        checkout scm: [
+                            $class: 'GitSCM',
+                            branches: [[name: "*/${GIT_BRANCH}"]],
+                            doGenerateSubmoduleConfigurations: false,
+                            extensions: [],
+                            userRemoteConfigs: [[
+                                url: "${GIT_REPO}",
+                                credentialsId: "${GIT_CREDENTIALS_ID}"
+                            ]]
+                        ]
+                    }
                 }    
             }
         }
