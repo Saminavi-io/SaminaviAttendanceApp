@@ -17,6 +17,11 @@ pipeline {
     }
 
     stages {
+        stage('Check') {
+            steps {
+                sh 'echo "Hello World"'
+            }
+        }
         stage('Checkout Code') {
             steps {
                 echo 'Checking out the latest code from GitHub...'
@@ -91,5 +96,10 @@ pipeline {
                 subject: "Jenkins Pipeline Failed: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
                 body: "Something went wrong in build ${env.BUILD_URL}. Check the logs for details."
         }
+        options {
+            timestamps()
+            ansiColor('xterm')
+            logRotator(daysToKeepStr: '10')
+}
     }
 }
