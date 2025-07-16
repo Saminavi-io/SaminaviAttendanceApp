@@ -21,7 +21,7 @@ pipeline {
     // Environment variables
     environment {
         DOCKER_REGISTRY = 'pramilay/attendanceportal'
-        DOCKER_IMAGE = 'pramilay/attendanceportal:latest'
+        DOCKER_IMAGE = 'pramilay/attendanceportal'
         DOCKER_CREDENTIALS_ID = 'docker-credentials' 
         GIT_REPO = 'https://github.com/Saminavi-io/SaminaviAttendanceApp.git'
         GIT_BRANCH = 'next'
