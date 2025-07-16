@@ -21,7 +21,7 @@ pipeline {
             steps {
                 echo 'Checking out the latest code from GitHub...'
                 git branch: 'next',
-                    url: 'git@github.com:madhuSanjeevChollangi/https://github.com/Saminavi-io/SaminaviAttendanceApp.git',
+                    url: 'git@github.com:PramilaSaminavi/https://github.com/Saminavi-io/SaminaviAttendanceApp.git',
                     credentialsId: "${github-credentials}"
             }
         }
