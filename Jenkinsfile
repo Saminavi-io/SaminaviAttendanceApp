@@ -74,7 +74,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                 wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
                 echo 'Building the application...'
                     withMaven(maven: 'maven3') {  // Must match your Maven tool name
                         sh '''
@@ -83,8 +82,6 @@ pipeline {
                             mvn package -X
                         ''' 
                     }
-
-                }
             }
         }
 
