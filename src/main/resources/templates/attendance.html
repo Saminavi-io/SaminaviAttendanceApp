@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Page</title>
+    <script th:src="@{/js/attendance.js}"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f9fb;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background: #2d6cdf;
+            color: #fff;
+            margin: 0;
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px #afc8ea34;
+        }
+        .container {
+            width: 82%;
+            margin: 40px auto;
+            background: #fff;
+            padding: 32px 40px;
+            border-radius: 11px;
+            box-shadow: 0 4px 26px #8aaae54a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #f3f6fa;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 13px 16px;
+            border: none;
+        }
+        th {
+            background-color: #e8eeff;
+            color: #294f94;
+            font-weight: 700;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background: #e6f0ff;
+        }
+        tr:hover {
+            background: #dbeafe;
+        }
+        .attendance-form {
+            display: inline-block;
+        }
+        .signin-btn {
+            background-color: #28a745;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 7px 22px;
+            margin-right: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .signoff-btn {
+            background-color: #dc3545;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 7px 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .signin-btn:hover, .signoff-btn:hover {
+            opacity: 0.85;
+        }
+        #confirmation-popup {
+            display: none;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 23px;
+            border: 2px solid #444;
+            z-index: 1000;
+            min-width: 240px;
+            box-shadow: 0 2px 14px #aaa8;
+            text-align: center;
+        }
+        #confirmation-popup button {
+            margin-top: 15px;
+            background: #2d6cdf;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            padding: 6px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .nav-link {
+            display: inline-block;
+            margin: 30px 5px 0 0;
+            padding: 10px 25px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1em;
+            box-shadow: 0 2px 4px #aabbe14c;
+            transition: background 0.17s;
+        }
+        .nav-link:hover {
+            background: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+    <h1>Please Sign in and Sign off below</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.employeeId}">employee id</td>
+                    <td th:text="${employee.firstName}">firstName</td>
+                    <td th:text="${employee.lastName}">lastName</td>
+                    <td th:text="${#temporals.format(employee.dob, 'yyyy-MM-dd')}">date of birth</td>
+                    <td>
+                        <!-- Sign In Button -->
+                        <form th:action="@{/attendance/signin}" method="post" class="attendance-form">
+                            <input type="hidden" name="employeeId" th:value="${employee.employeeId}" />
+                            <button type="submit" class="signin-btn"><b>Sign In</b></button>
+                        </form>
+                        <!-- Sign Off Button -->
+                        <form th:action="@{/attendance/signoff}" method="post" class="attendance-form">
+                            <input type="hidden" name="employeeId" th:value="${employee.employeeId}" />
+                            <button type="submit" class="signoff-btn"><b>Sign Off</b></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Popup Modal (hidden by default) -->
+        <div id="confirmation-popup">
+            <span id="popup-message"></span>
+            <br/><br/>
+            <button onclick="document.getElementById('confirmation-popup').style.display='none'">OK</button>
+        </div>
+        <div>
+            <a th:href="@{/welcome}" class="nav-link">Back to Welcome Page</a>
+        </div>
+    </div>
+</body>
+</html>

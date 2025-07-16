@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f9fb;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background: #2d6cdf;
+            color: #fff;
+            margin: 0;
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px #afc8ea34;
+        }
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 26px #8aaae54a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f3f6fa;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 14px 18px;
+            border: none;
+        }
+        th {
+            background: #e8eeff;
+            color: #294f94;
+            font-weight: 600;
+            text-align: left;
+        }
+        tr:nth-child(even) {
+            background: #e6f0ff;
+        }
+        tr:hover {
+            background: #dbeafe;
+        }
+        .btn-link {
+            display: inline-block;
+            margin: 15px 15px 0 0;
+            padding: 10px 22px;
+            color: #fff;
+            background: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-link:last-child {
+            background: #888;
+        }
+        .btn-link:hover {
+            background: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+    <h1>Saminavi LLC</h1>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.employeeId}">employee id</td>
+                    <td th:text="${employee.firstName}">firstName</td>
+                    <td th:text="${employee.lastName}">lastName</td>
+                    <td th:text="${#temporals.format(employee.dob, 'yyyy-MM-dd')}">date of birth</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <a th:href="@{/addEmployee}" class="btn-link">Add Employee Page</a>
+            <a th:href="@{/welcome}" class="btn-link">Back to Welcome Page</a>
+        </div>
+    </div>
+</body>
+</html>

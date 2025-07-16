@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f9fb;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background: #2d6cdf;
+            color: #fff;
+            margin: 0;
+            padding: 18px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px #afc8ea34;
+        }
+        .container {
+            width: 60%;
+            margin: 60px auto 0 auto;
+            background: #fff;
+            padding: 35px 40px 25px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 26px #8aaae54a;
+            text-align: center;
+        }
+        p {
+            font-size: 1.25em;
+            margin-bottom: 35px;
+            color: #294f94;
+        }
+        .btn-link {
+            display: inline-block;
+            margin: 17px 15px 0 15px;
+            padding: 12px 34px;
+            color: #fff;
+            background: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1em;
+            box-shadow: 0 2px 4px #aabbe14c;
+            transition: background 0.18s;
+        }
+        .btn-link:hover {
+            background: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+    <h1>Attendance Management System Saminavi</h1>
+    <div class="container">
+        <p>Hello Sunshine! Welcome to the Employee Portal</p>
+        <div>
+            <a th:href="@{/employeeDetails}" class="btn-link">View Employee Details</a>
+            <a th:href="@{/attendance}" class="btn-link">Sign In & Sign Off</a>
+        </div>
+    </div>
+</body>
+</html>

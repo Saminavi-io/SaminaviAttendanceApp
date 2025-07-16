@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Add Employee</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f9fb;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            color: #fff;
+            background: #2d6cdf;
+            margin: 0;
+            padding: 18px 0 18px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px #afc8ea34;
+            letter-spacing: 1px;
+        }
+        .container {
+            width: 82%;
+            margin: 36px auto 0 auto;
+            background: #fff;
+            padding: 32px 40px 40px 40px;
+            border-radius: 11px;
+            box-shadow: 0 4px 26px #8aaae54a;
+        }
+        .form-container {
+            background: #e7f0fd;
+            padding: 26px 35px 24px 35px;
+            border-radius: 7px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 7px #aabbe11a;
+            width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-container label {
+            font-weight: bold;
+            color: #294f94;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="date"] {
+            width: 88%;
+            padding: 5.5px;
+            margin-bottom: 18px;
+            border-radius: 3px;
+            border: 1px solid #bfc0c0;
+            font-size: 1em;
+        }
+        .form-container button {
+            font-weight: bold;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 9px 36px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 1px 4px #aabbe126;
+            letter-spacing: 1px;
+            font-size: 1em;
+        }
+        .form-container button:hover {
+            background: #1150c6;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 32px;
+            background: #f3f6fa;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+        th, td {
+            border: none;
+            padding: 13px 18px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eeff;
+            color: #294f94;
+            font-weight: 700;
+        }
+        tr:nth-child(even) {
+            background: #e6f0ff;
+        }
+        tr:hover {
+            background: #dbeafe;
+        }
+        .nav-link {
+            display: inline-block;
+            margin: 30px 5px 0 0;
+            padding: 10px 25px;
+            background: #007bff;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1em;
+            box-shadow: 0 2px 4px #aabbe14c;
+            transition: background 0.17s;
+        }
+        .nav-link:hover {
+            background: #0a58ca;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Employee</h1>
+    <div class="container">
+        <div class="form-container">
+            <form th:action="@{/employees/add}" th:object="${employee}" method="post">
+                <label for="firstName">First Name:</label><br>
+                <input type="text" th:field="*{firstName}" id="firstName" name="firstName" required/><br>
+                <label for="lastName">Last Name:</label><br>
+                <input type="text" th:field="*{lastName}" id="lastName" name="lastName" required/><br>
+                <label for="dob">Date Of Birth:</label><br>
+                <input type="date" th:field="*{dob}" id="dob" name="dob" required/><br>
+                <button type="submit">Add Employee</button>
+            </form>
+        </div>
+        <h2>Employee List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Of Birth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.employeeId}">employee id</td>
+                    <td th:text="${employee.firstName}">firstName</td>
+                    <td th:text="${employee.lastName}">lastName</td>
+                    <td th:text="${#temporals.format(employee.dob, 'yyyy-MM-dd')}">date of birth</td>
+                    <!-- <td th:date="${#dates.format(employee.dob, 'yyyy-MM-dd')}">date of birth</td> -->
+                </tr>
+            </tbody>
+        </table>
+        <div>
+             <a th:href="@{/employeeDetails}" class="nav-link">Employee Details</a>
+            <a th:href="@{/welcome}" class="nav-link">Back to Welcome Page</a>
+        </div>
+    </div>
+</body>
+</html>
