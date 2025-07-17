@@ -105,10 +105,11 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to registry...'
                 script {
-                        docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}" {
+                    // Correct use of environment variable: DOCKER_CREDENTIALS_ID
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
                         docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
                         docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
-                        }    
+                    }
                 }
             }
         }
