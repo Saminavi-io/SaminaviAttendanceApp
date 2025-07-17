@@ -21,7 +21,7 @@ pipeline {
     // Environment variables
     environment {
         DOCKER_REGISTRY = 'docker.io'
-        DOCKER_IMAGE = 'pramilay/attendanceportal'
+        DOCKER_IMAGE = 'pramilay@saminavi.io/attendanceportal'
         DOCKER_CREDENTIALS_ID = 'docker-credentials' 
         GIT_REPO = 'https://github.com/Saminavi-io/SaminaviAttendanceApp.git'
         GIT_BRANCH = 'next'
@@ -105,15 +105,9 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to registry...'
                 script {
-                    withCredentials([usernamePassword(
-                        credentialsId: 'docker-credentials', 
-                        usernameVariable: 'DOCKER_USER', 
-                        passwordVariable: 'DOCKER_PASS'
-                    )]) {
-                             docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKER_USER}:${DOCKER_PASS}") {
-                                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
-                                docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
-                            }
+                        docker.withRegistry("https://${DOCKER_REGISTRY}", 'docker-credentials') {
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
                         }    
                 }
             }
