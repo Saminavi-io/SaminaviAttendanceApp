@@ -105,9 +105,19 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to registry...'
                 script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
-                        docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
+                    // Test credentials by logging into the Docker registry
+                    withCredentials([usernamePassword(
+                        credentialsId: "${DOCKER_CREDENTIALS_ID}",
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        // Debug: Test Docker login manually
+                        sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS $DOCKER_REGISTRY'
+                        // Push images to Docker registry
+                        docker.withRegistry("https://${DOCKER_REGISTRY}", DOCKER_CREDENTIALS_ID) {
+                            docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                            docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").push('latest')
+                        }
                     }
                 }
             }
